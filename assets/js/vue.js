@@ -40,11 +40,27 @@ const Home = {
             let cookieValue = JSON.parse($cookies.get('liked'));
             console.log(cookieValue);
             cookieValue == null ? this.liked = [] : this.liked = cookieValue;
+        },
+
+        cartTotalAmount() {
+            let total = 0;
+            for (let item in this.shoppingCart) {
+                total = total + (this.shoppingCart[item].quantity * this.shoppingCart[item].price);
+            }
+            return total.toFixed(2);
+            // return Math.round((total + Number.EPSILON) * 100) / 100
+        },
+
+        cartTotalQuantity() {
+            let total = 0;
+            for (let item in this.shoppingCart) {
+                total = total + this.shoppingCart[item].quantity;
+            }
+            return total;
         }
     },
     //Executé avec un "onclick" ou "onchange" ou ....
     methods: {
-
         //On ajoute le tableau de liked en cookie
         setLikeCookie() {
             document.addEventListener('input', () => {
@@ -52,11 +68,44 @@ const Home = {
                     $cookies.set('liked', JSON.stringify(this.liked));
                 }, 300);
             });
-        }
+        },
+        addToCart(product) {
+            //Check if already in array
+            for (let i = 0; i < this.shoppingCart.length; i++) {
+                if (this.shoppingCart[i].id === product.id) {
+                    //Si il existe déjà, on incrémente sa quantité.
+                    return this.shoppingCart[i].quantity++;
+                }
+            }
+            this.shoppingCart.push({
+                id: product.id,
+                img: product.img,
+                description: product.description,
+                price: product.price,
+                quantity: 1
+            });
+        },
+
+
+        cartPlusOne(product) {
+            product.quantity = product.quantity + 1;
+        },
+
+        cartMinusOne(product, id) {
+            if (product.quantity > 1) {
+                product.quantity -= 1;
+            } else {
+                this.cartDelete(id);
+            }
+        },
+
+        cartDelete(id) {
+            this.$delete(this.shoppingCart, id);
+        },
     },
 
     mounted: () => {
-        this.getLikedCookie();
+        this.getLikedCookie;
     }
 
 }
