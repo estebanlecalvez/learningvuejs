@@ -413,10 +413,13 @@ nav {
             transition: 1.3s cubic-bezier(.23, .66, .08, .93);
             transform: translateX(0px);
         }
-        &-enter,
-        &-leave-to {
+        &-enter {
             opacity: 0;
             transform: translateX(400px);
+        }
+        &-leave-to {
+            opacity: 0;
+            transform: translateY(-400px);
         }
     }
     .item-anim {

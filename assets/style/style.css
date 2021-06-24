@@ -473,10 +473,14 @@ nav .nav-container #icons i:hover {
     transform: translateX(0px);
 }
 
-.home-container .cart-anim-enter,
+.home-container .cart-anim-enter {
+    opacity: 0;
+    transform: translateY(-400px);
+}
+
 .home-container .cart-anim-leave-to {
     opacity: 0;
-    transform: translateX(400px);
+    transform: translateY(-400px);
 }
 
 .home-container .item-anim-enter-active,
